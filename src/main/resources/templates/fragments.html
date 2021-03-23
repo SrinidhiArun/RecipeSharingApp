@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title th:text="${title}"></title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootswatch-lumen/4.0.0/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-ui/jquery-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/5.0.10/web-fonts-with-css/css/fontawesome-all.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/recipe.css}"/>
+</head>
+<body>
+
+<header th:fragment="header">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" th:href="@{/}">UrRecipes</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    </nav>
+</header>
+
+<div th:fragment="messages" class="container-fluid">
+    <div th:if="${message != null}"
+         th:with="parts=${#strings.arraySplit(message, '|')}"
+         th:attr="class=${'alert alert-dismissible alert-' + parts[0]}"
+         role="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <div th:text="${parts[1]}"></div>
+    </div>
+</div>
+
+</body>
+</html>
