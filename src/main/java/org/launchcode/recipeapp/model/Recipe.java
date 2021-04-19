@@ -1,9 +1,6 @@
 package org.launchcode.recipeapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -27,12 +24,12 @@ public class Recipe extends AbstractEntity{
     private Integer serves;
     private String photoLink;
     private String recipeOrigin;
-    @ManyToOne
-    private User user;
-    @ManyToMany
-    private List<Ingredients> ingredientsList;
 
-    private String instructions;
+    @ElementCollection
+    private List<String> ingredients;
+
+    @ElementCollection
+    private List<String> instructions;
     public Recipe() {
     }
 
@@ -83,19 +80,19 @@ public class Recipe extends AbstractEntity{
         this.recipeOrigin = recipeOrigin;
     }
 
-    public List<Ingredients> getIngredientsList() {
-        return ingredientsList;
+    public List<String> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredientsList(List<Ingredients> ingredientsList) {
-        this.ingredientsList = ingredientsList;
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 
-    public String getInstructions() {
+    public List<String>getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(List<String> instructions) {
         this.instructions = instructions;
     }
 }

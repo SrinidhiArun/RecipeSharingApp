@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+<body>
+
+<div th:replace="fragments :: header"></div>
+
+<div th:replace="fragments :: messages"></div>
+
+<main th:if="${recipe}" class="container-fluid">
+
+    <div class="row">
+        <div class="col">
+            <ul class="list-group mb-3">
+                <li class="list-group-item">
+                    <h4 class="mb-1">Title</h4>
+                    <p th:text="${recipe.recipeTitle}"></p>
+                </li>
+                <li class="list-group-item">
+                    <h4 class="mb-1">Duration</h4>
+                    <p th:text="${{recipe.timeTaken}}"></p>
+                </li>
+                <li class="list-group-item">
+                    <h4 class="mb-1">Serves</h4>
+                    <p th:text="${recipe.serves}"></p>
+                </li>
+                <li class="list-group-item">
+                    <h4 class="mb-1">Description</h4>
+                    <p th:text="${recipe.recipeDescription}"></p>
+                </li>
+                <li class="list-group-item">
+                    <h4 class="mb-1">Ingredients</h4>
+                    <ul>
+                        <li th:each="ingredient : ${recipe.ingredients}"
+                            th:text="${ingredient}"></li>
+                    </ul>
+                </li>
+                <li class="list-group-item">
+                    <h4 class="mb-1">Instructions</h4>
+                    <ol>
+                        <li th:each="instruction : ${recipe.instructions}"
+                            th:text="${instruction}"></li>
+                    </ol>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+</main>
+
+<div th:insert="fragments :: scripts"></div>
+
+</body>
+</html>
+</body>
+</html>
