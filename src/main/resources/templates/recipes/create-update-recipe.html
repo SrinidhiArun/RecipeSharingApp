@@ -35,12 +35,12 @@
                     <div class="invalid-feedback" th:errors="*{serves}"></div>
                 </div>
                 <div class="form-group">
-                    <label th:for="ingredients">Ingredients</label>
+                    <label th:for="ingredients">Ingredients (Please enter , after each ingredient)</label>
                     <textarea type="textarea" rows="3" th:errorclass="is-invalid" class="form-control" th:field="*{ingredients}" required="required"></textarea>
                     <div class="invalid-feedback" th:errors="*{ingredients}"></div>
                 </div>
                 <div class="form-group">
-                    <label th:for="instructions">RecipeDescription</label>
+                    <label th:for="instructions">Instructions (Please enter , after each step of instruction)</label>
                     <textarea type="textarea" rows="10" th:errorclass="is-invalid" class="form-control" th:field="*{instructions}" required="required"></textarea>
                     <div class="invalid-feedback" th:errors="*{instructions}"></div>
                 </div>

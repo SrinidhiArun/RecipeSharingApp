@@ -20,24 +20,26 @@ import java.util.Optional;
 @RequestMapping(value= "recipe")
 public class RecipeController {
 
+    public static final String MESSAGE_KEY = "message";
+
     @Autowired
     RecipeRepository recipeRepository;
 
-    @GetMapping(value= "create")
-    public String displayCreateRecipeForm(Model model, HttpServletRequest request){
+    @GetMapping(value = "create")
+    public String displayCreateRecipeForm(Model model, HttpServletRequest request) {
         model.addAttribute("actionUrl", request.getRequestURI());
         model.addAttribute("recipe", new Recipe());
         model.addAttribute("title", "Create Recipe");
-       return "recipes/create-update-recipe";
+        return "recipes/create-update-recipe";
     }
 
-    @PostMapping(value= "create")
-    public String processCreateRecipeForm(@Validated @ModelAttribute Recipe recipe, Errors errors, Model model){
-          if(errors.hasErrors()){
-              return "recipes/create-update-recipe";
-          }
-          recipeRepository.save(recipe);
-          return "redirect:/recipe/view/"+recipe.getUniqueId();
+    @PostMapping(value = "create")
+    public String processCreateRecipeForm(@Validated @ModelAttribute Recipe recipe, Errors errors, Model model) {
+        if (errors.hasErrors()) {
+            return "recipes/create-update-recipe";
+        }
+        recipeRepository.save(recipe);
+        return "redirect:/recipe/view/" + recipe.getUniqueId();
     }
 
     @GetMapping(value = "view/{uniqueId}")
@@ -50,12 +52,50 @@ public class RecipeController {
             Recipe recipe = result.get();
             model.addAttribute(recipe);
         } else {
-            model.addAttribute("message", "warning|No event found with id: " + Integer.toString(uniqueId));
+            model.addAttribute(MESSAGE_KEY, "warning|No recipe found with id: " + Integer.toString(uniqueId));
         }
 
         return "recipes/view-recipe";
     }
 
+    @GetMapping(value = "update/{uniqueId}")
+    public String displayUpdateRecipeForm(@PathVariable int uniqueId, Model model, HttpServletRequest request) {
+
+        model.addAttribute("title", "Update Recipe");
+        model.addAttribute("actionUrl", request.getRequestURI());
+
+        Optional<Recipe> recipe = recipeRepository.findById(uniqueId);
+        if (recipe.isPresent()) {
+            model.addAttribute(recipe.get());
+        } else {
+            model.addAttribute(MESSAGE_KEY, "warning|No recipe found with id: " + Integer.toString(uniqueId));
+        }
+
+        return "recipes/create-update-recipe";
+    }
+
+    @PostMapping(value = "update/{uniqueId}")
+    public String processUpdateEventForm(@Valid @ModelAttribute Recipe recipe,
+                                         RedirectAttributes model,
+                                         Errors errors) {
+
+        if (errors.hasErrors())
+            return "recipes/create-update-recipe";
+
+        recipeRepository.save(recipe);
+        model.addFlashAttribute(MESSAGE_KEY, "success|Updated recipe: " + recipe.getRecipeTitle());
+
+        return "redirect:/recipe/view/" + recipe.getUniqueId();
+    }
+
+    @GetMapping(value = "list")
+    public String listAllRecipes(Model model) {
+        Iterable<Recipe> recipes = recipeRepository.findAll();
+        model.addAttribute("recipes", recipes);
+        return "recipes/homepage-list-recipe";
+    }
 
 
 }
+
+
